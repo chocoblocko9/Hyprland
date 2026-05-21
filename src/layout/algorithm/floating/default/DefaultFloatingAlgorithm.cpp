@@ -76,11 +76,14 @@ void CDefaultFloatingAlgorithm::newTarget(SP<ITarget> target) {
             }
         }
 
-        if (WINDOW->m_ruleApplicator->static_.center.value_or(false)) {
-            const auto POS   = WORK_AREA.middle() - windowGeometry.size() / 2.f;
-            windowGeometry.x = POS.x;
-            windowGeometry.y = POS.y;
+        if (WINDOW->m_ruleApplicator->static_.center.has_value()) {
             posOverridden    = true;
+
+            if (*WINDOW->m_ruleApplicator->static_.center) {
+                const auto POS   = WORK_AREA.middle() - windowGeometry.size() / 2.f;
+                windowGeometry.x = POS.x;
+                windowGeometry.y = POS.y;
+            }
         }
     } else if (target->lastFloatingSize().x > 5 && target->lastFloatingSize().y > 5) {
         windowGeometry.w = target->lastFloatingSize().x;
